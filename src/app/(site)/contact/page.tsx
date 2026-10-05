@@ -243,7 +243,7 @@ export default function ContactPage() {
                   <p>
                     {school.name} operates in {school.location.area},{" "}
                     {school.location.region}, {school.location.country}. Founded by{" "}
-                    {founder.name}, {founder.qualification.toLowerCase()}.
+                    {founder.name}, {founder.role}.
                   </p>
                   <p>
                     The school&apos;s records list{" "}

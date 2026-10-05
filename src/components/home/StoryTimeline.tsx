@@ -87,9 +87,7 @@ export function StoryTimeline() {
                   {founder.name}
                 </span>
                 <span aria-hidden="true" className="h-px w-8 bg-gold-500" />
-                <span className="text-sm text-cream-300/70">
-                  {founder.role} · {founder.qualification}
-                </span>
+                <span className="text-sm text-cream-300/70">{founder.line}</span>
               </div>
             </Reveal>
 

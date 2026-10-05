@@ -38,12 +38,21 @@ export const metadata: Metadata = buildMetadata({
  *     concentric rings therefore read as the decoration they were drawn as,
  *     rather than framing a portrait.
  *   - The Founder section is still a two-column spread. Column one carries the
- *     role, name, qualification and the full biography; column two carries the
- *     school's own profile page. So the section is a designed pair rather than
- *     a column beside an empty slot.
- *   - Every founder NAME, TITLE and QUALIFICATION on this page is untouched, as
- *     is the "Founder & our story" heading and its introductory paragraph.
- *
+   *     leadership title, name and professional descriptor, followed by the full
+   *     biography; column two carries the school's own profile page. So the
+   *     section is a designed pair rather than a column beside an empty slot.
+   *   - The founder identity is name / Founder & Director / Educationist, stated
+   *     from `founder` in `content/school.ts`. This page's own words about the
+   *     founder, and the "Founder & our story" heading with its introductory
+   *     paragraph, are otherwise untouched.
+   *
+   * The founder's academic qualification is deliberately NOT printed anywhere on
+   * this page. It used to appear twice here (the gold-rule line and the opening
+   * paragraph) as part of a nine-site repetition across the site; see the founder
+   * record in `content/school.ts` for why it was removed as decoration rather than
+   * as a fact. Nothing has been added in its place except the professional
+   * descriptor the leadership title implies.
+   *
  * If a photograph is ever reinstated, the biography and the profile page stay
  * exactly where they are and the portrait is ADDITIONAL to both — never a
  * substitute for either.
@@ -54,7 +63,7 @@ export default function StoryPage() {
       <PageHero
         eyebrow="Founder & our story"
         title="Seven students, and a long walk to reach them"
-        lead={`The school began with one person carrying a Master's degree in education into the communities of ${school.location.region}. This is the account the school gives of how that happened.`}
+        lead={`The school began with one ${founder.descriptor.toLowerCase()} walking into the communities of ${school.location.region} to open a school. This is the account the school gives of how that happened.`}
       />
 
       {/* Founder */}
@@ -67,16 +76,22 @@ export default function StoryPage() {
                 title={founder.name}
                 as="h2"
               />
+              {/* The gold rule plus descriptor. This used to carry the
+                  founder's qualification; it now carries the professional
+                  descriptor alone, which is what the position calls for. The
+                  eyebrow above it already states the leadership title, so
+                  name / title / descriptor reads as one identity block. */}
               <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
                 <span aria-hidden="true" className="h-px w-10 bg-gold-500" />
-                <span className="text-sm text-warm-500">{founder.qualification}</span>
+                <span className="text-sm text-warm-500">{founder.descriptor}</span>
               </div>
 
               <div className="mt-9 max-w-2xl">
                 <Prose>
                   <p className="text-lg leading-relaxed text-warm-700">
-                    {founder.name} holds a {founder.qualification}. Her account of
-                    why she began is straightforward: she saw that people in the
+                    {founder.name} is the school&apos;s {founder.role}, and an{" "}
+                    {founder.descriptor.toLowerCase()}. Her account of why she
+                    began is straightforward: she saw that people in the
                     area badly needed access to the kind of education that would
                     let their children stand among the best in their society.
                   </p>

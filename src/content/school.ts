@@ -40,10 +40,60 @@ export const school = {
   },
 } as const;
 
+/**
+ * The company behind the school.
+ *
+ * WHY THIS IS ITS OWN RECORD AND NOT A STRING ON `school`: the attribution has
+ * to read as an institutional credit line UNDER the school name on every
+ * surface that shows it, and there are only a few of those. Keeping the phrase
+ * in one place is what stops it drifting into a corporate banner, and keeps the
+ * order fixed — the school is named first, the company after it, never above.
+ *
+ * There is deliberately nothing else here: no logo, no URL, no registration
+ * detail, no office. Nothing about the company has been supplied beyond its
+ * name, so nothing else may be stated.
+ */
+export const company = {
+  name: "Quick Done Corporation",
+  shortName: "QDC",
+  /**
+   * The one credit line. Phrased so the school always leads and the company
+   * follows as its project — never the reverse.
+   */
+  attribution: "A Project of Quick Done Corporation (QDC)",
+} as const;
+
+/**
+ * The school's founder and current leader.
+ *
+ * IDENTITY RULE — WHY THERE IS NO `qualification` FIELD ANY MORE.
+ *
+ * The school previously carried "Master's degree in Education" as a repeated
+ * badge: nine separate call sites printed it, so the same credential appeared on
+ * the hero plate, the footer, the story hero, the about overview, the contact
+ * page, the leadership page, why-trillium, the story founder section and the
+ * home timeline. Read across the site it read as a marketing badge repeated for
+ * emphasis, not as a credential, and it competed with the founder's actual
+ * role.
+ *
+ * The site now states ONE identity — {role} and {descriptor} — and says nothing
+ * about academic qualifications at all. That is a presentation decision, not a
+ * claim: no qualification has been invented, removed from the school's record
+ * or contradicted, only stopped being reprinted as decoration. Nothing here may
+ * be added without the school supplying it.
+ */
 export const founder = {
   name: "Farzana Tabussum",
-  role: "Founder",
-  qualification: "Master's degree in Education",
+  /** The leadership title used on this website. */
+  role: "Founder & Director",
+  /** The professional descriptor used on this website. */
+  descriptor: "Educationist",
+  /**
+   * Compact single-line form for credits and cards, where a stacked
+   * name-then-title pair would cost vertical space the layout does not have.
+   * Reads as "Founder & Director | Educationist".
+   */
+  line: "Founder & Director | Educationist",
 } as const;
 
 /**

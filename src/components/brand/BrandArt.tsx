@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { school, founder } from "@/content/school";
+import { school, company } from "@/content/school";
 
 /**
  * Decorative brand geometry for the hero and section transitions.
@@ -324,8 +324,29 @@ export function LogoPlate({
             {caption}
           </p>
         ) : (
-          <p className="mt-4 text-center text-[0.6875rem] tracking-[0.2em] text-cream-300/70 uppercase">
-            {founder.qualification}
+          /* THE INSTITUTIONAL CREDIT LINE.
+             This is the primary placement of the Quick Done Corporation
+             attribution: it sits directly beneath the school's own lockup,
+             separated by the gold hairline above, so the reading order is
+             unambiguous — the school is the subject, the company is the
+             project's parent.
+
+             Scale is the whole design. At 11px in a wide-tracked sans it reads
+             as a credit line set by a typesetter; at display size it would
+             read as a second logo and split the identity in two. It is never
+             larger than the smallest type on the plate.
+
+             Colour is the existing brand gold (gold-400 #e3bd63) on the hero's
+             ink-950, which measures ~9:1 — comfortably readable at this size
+             without becoming the brightest thing in the frame. Weight is
+             medium, tracking 0.2em, uppercased: the conventions that make an
+             institutional attribution look settled rather than shouted.
+
+             Nothing animates, and nothing wraps into an oversized block on
+             mobile — it is a single centred line that is allowed to sit on two
+             at the narrowest widths. */
+          <p className="mt-4 text-center text-[0.6875rem] font-medium tracking-[0.2em] text-gold-400 uppercase">
+            {company.attribution}
           </p>
         )}
       </div>

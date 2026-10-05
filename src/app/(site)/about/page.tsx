@@ -36,7 +36,7 @@ export default function AboutPage() {
               <p className="text-lg leading-relaxed text-warm-700">
                 {school.name} is a school system in {school.location.area},{" "}
                 {school.location.region}, {school.location.country}. It was founded
-                by {founder.name}, who holds a {founder.qualification}.
+                by {founder.name}, {founder.role} and {founder.descriptor}.
               </p>
               <p>
                 The school&apos;s own profile describes its work in unusually plain

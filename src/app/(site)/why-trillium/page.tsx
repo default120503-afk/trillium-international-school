@@ -121,8 +121,8 @@ export default function WhyTrilliumPage() {
                 <Prose>
                   <p>{history.premise}</p>
                   <p>
-                    In January 2014, {founder.name} — holding a{" "}
-                    {founder.qualification} — started educational work in the
+                    In January 2014, {founder.name} — {founder.role} and {founder.descriptor}
+                    — started educational work in the
                     Haripur area and walked door to door to explain what she intended
                     to do. The first session followed in March of the 2014-2015
                     school year with seven students.

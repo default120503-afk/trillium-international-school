@@ -72,8 +72,8 @@ export default function LeadershipPage() {
                   curiosity seriously as outcomes in their own right.
                 </p>
                 <p>
-                  The school was founded by {founder.name}, who holds a{" "}
-                  {founder.qualification}, and began by travelling door to door so
+                  The school was founded by {founder.name}, its {founder.role}, and began by
+                  travelling door to door so
                   that children in rural communities could attend school at all.
                   That commitment — going to families rather than waiting for them
                   to arrive — remains the clearest thing the school has to say for

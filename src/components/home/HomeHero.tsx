@@ -8,7 +8,7 @@ import { RevealWords } from "@/components/motion/RevealWords";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { HeroField, LogoPlate } from "@/components/brand/BrandArt";
 import { ButtonLink } from "@/components/ui/Button";
-import { school, founder } from "@/content/school";
+import { school } from "@/content/school";
 
 /**
  * Homepage hero.
@@ -226,7 +226,13 @@ export function Hero() {
             }}
           >
             <Reveal variant="plate" size="lg" delay={420}>
-              <LogoPlate caption={`Founded by ${founder.name}`} />
+              {/* No caption: the plate's default line is the Quick Done
+                  Corporation attribution, which is the identity this slot
+                  exists to establish — the school lockup first, the credit
+                  line beneath it. The founder is named once on this page by
+                  StoryTimeline further down, with the site's single founder
+                  identity, which is why the credit no longer sits here. */}
+              <LogoPlate />
             </Reveal>
 
             {/*
@@ -235,8 +241,8 @@ export function Hero() {
               Defect this replaces (measured, not assumed): this card carried
               `-mt-10` and sat INSIDE the logo-plate column, directly on top of
               the plate's caption. The plate's caption is
-              "Founded by Farzana Tabussum", so the card was painted over the
-              founder credit — and it won the paint order every time, because
+              a credit line under the school's lockup, so the card was painted
+              over it — and it won the paint order every time, because
               both are inside the same stacking context and this one comes later
               in the markup. At narrower widths the card's `w-[min(21rem,90%)]`
               also pushed it sideways into the plate's border.

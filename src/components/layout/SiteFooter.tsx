@@ -4,7 +4,7 @@ import { TrilliumLogo, TrilliumPetal } from "@/components/brand/Marks";
 import { primaryNav, admissionNav } from "@/content/navigation";
 import { contact, social, contactUnavailableNotice, telHref } from "@/content/contact";
 import { campuses } from "@/content/campuses";
-import { school, founder } from "@/content/school";
+import { school, founder, company } from "@/content/school";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -54,8 +54,25 @@ export function SiteFooter() {
               {school.location.area}, {school.location.region},{" "}
               {school.location.country}.
             </p>
+            {/* The founder, stated once and in one form. This footer used to
+                print "Founded by {name}, {qualification}" — the same sentence
+                the hero, story, about, contact, leadership and why-trillium
+                pages each printed in their own words, so the credential
+                appeared nine times across the site and read as a repeated
+                marketing badge rather than as an identity. It is now a single
+                leadership line. */}
             <p className="mt-4 text-sm leading-relaxed text-cream-300/75">
-              Founded by {founder.name}, {founder.qualification}.
+              {founder.name} — {founder.line}
+            </p>
+
+            {/* The parent-company credit. Same treatment as the hero plate's:
+                the smallest type in the footer, tracked wide, in the brand
+                gold, sitting under the school's own identity rather than
+                beside it. No logo, no link, no extra company facts — nothing
+                beyond the name the school supplied has been stated, so nothing
+                else may be claimed here. */}
+            <p className="mt-5 text-[0.6875rem] font-medium tracking-[0.2em] text-gold-400 uppercase">
+              {company.attribution}
             </p>
             <div className="mt-6 flex items-center gap-2 text-gold-400/80">
               <TrilliumPetal className="size-5" />
