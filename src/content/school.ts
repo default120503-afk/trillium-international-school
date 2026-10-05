@@ -90,8 +90,14 @@ export const school = {
      * Sentence form for prose that needs a subject and a verb, so no call site
      * has to hand-assemble one and get the preposition wrong:
      * "a presence in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab"
+     *
+     * Non-breaking spaces here too, for the same reason as `list`: verified on
+     * the live mobile homepage, where the plain-space version wrapped as
+     * "Khyber | Pakhtunkhwa" inside a paragraph. The space before "and" is the
+     * ONLY ordinary space left, so that is where this variant may wrap — which
+     * is again the boundary between the two locations.
      */
-    prose: "a presence in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab",
+    prose: "a presence in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab",
   },
   /** The school reopened in October 2026 per the client. */
   status: {
