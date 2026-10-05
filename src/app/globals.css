@@ -1,0 +1,773 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   TISS design tokens
+   Derived from the official Trillium logo (deep navy -> azure gradient with
+   gold accents) and the school profile cover (violet, gold, cream).
+   Single source of truth: every component consumes these, never raw hexes.
+   ========================================================================== */
+
+@theme {
+  /* -- Brand: violet / deep purple ------------------------------------- */
+  --color-ink-950: #170b2b;
+  --color-ink-900: #241040;
+  --color-ink-800: #341757;
+  --color-ink-700: #4a2076;
+  --color-ink-600: #5f2b96;
+
+  /* -- Brand: gold ------------------------------------------------------ */
+  --color-gold-700: #8a6414;
+  --color-gold-600: #b3821f;
+  --color-gold-500: #d4a537;
+  --color-gold-400: #e3bd63;
+  --color-gold-300: #f0d79b;
+
+  /* -- Brand: navy / azure (from the logo mark) ------------------------- */
+  --color-navy-900: #001050;
+  --color-navy-800: #002060;
+  --color-navy-700: #003070;
+  --color-navy-600: #0050a0;
+
+  /* -- Neutrals: warm cream paper --------------------------------------- */
+  --color-cream-50: #fdfbf7;
+  /* cream-100 is the alternating band tone. It is deliberately a clear step
+     from cream-50 (measured luminance delta ~1.08, not ~1.02) so consecutive
+     sections read as distinct bands rather than one undifferentiated page. */
+  --color-cream-100: #f5efe3;
+  --color-cream-200: #ece2cf;
+  --color-cream-300: #ded0b6;
+
+  --color-warm-500: #6b6472;
+  --color-warm-600: #565062;
+  --color-warm-700: #423e4c;
+  --color-warm-800: #2b2833;
+
+  /* -- Semantic ---------------------------------------------------------- */
+  --color-success-600: #1f7a4d;
+  --color-success-100: #e2f2e9;
+  --color-danger-600: #b3261e;
+  --color-danger-100: #fbe6e4;
+  --color-warning-700: #7a4d0b;
+
+  /* -- Typography ------------------------------------------------------- */
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Display ladder.
+     Sized as a deliberate editorial scale, not a geometric one. The step from
+     the hero headline to a chapter heading is the one that matters most: it was
+     84 -> 64 (1.31x), so a mid-page heading sat 20px from the hero and the page
+     read flat. It is now 96 -> 56 (1.71x), which reads as a real top step.
+     Full-bleed dark chapters take display-lg; light content sections take
+     display-sm, because a full-bleed chapter earns larger type. */
+  --text-display-xl: clamp(2.75rem, 1.7rem + 4.5vw, 6rem);
+  --text-display-lg: clamp(2.125rem, 1.5rem + 2.6vw, 3.5rem);
+  --text-display-md: clamp(1.85rem, 1.4rem + 1.9vw, 2.75rem);
+  --text-display-sm: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+
+  /* -- Layout ----------------------------------------------------------- */
+  --spacing-gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --container-page: 78rem;
+  --container-prose: 42rem;
+
+  /* -- Radii (restrained - no pill-everything) --------------------------- */
+  --radius-card: 0.5rem;
+  --radius-frame: 0.25rem;
+
+  /* -- Motion ------------------------------------------------------------ */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Easing is chosen per intent, never picked at random:
+     - standard  : UI feedback, colour/border changes. Near-linear, quick.
+     - out-soft  : elements ENTERING. Fast start, long settle. The default.
+     - in-out    : elements that MOVE BETWEEN two states (scroll sequences).
+     - cinematic : long ambient/hero motion. Slow out, very slow tail.       */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* One duration scale. Anything outside these four bands is a bug. */
+  --dur-fast: 180ms;      /* hover, colour, focus            */
+  --dur-base: 420ms;      /* most entrances, card state      */
+  --dur-slow: 900ms;      /* hero, reveals, section changes */
+  --dur-cinematic: 1200ms;/* headline / masked typography    */
+
+  /* Stagger step for word-level reveals. */
+  --stagger-step: 55ms;
+
+  /* -- Elevation: soft, warm, low-opacity -------------------------------- */
+  --shadow-lift: 0 1px 2px rgb(36 16 64 / 0.05), 0 12px 32px -12px rgb(36 16 64 / 0.14);
+  --shadow-raise: 0 2px 4px rgb(36 16 64 / 0.06), 0 24px 56px -20px rgb(36 16 64 / 0.22);
+}
+
+/* ==========================================================================
+   Base layer
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header height, so anchor targets are never hidden beneath it. */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-warm-800);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    /* Prevents horizontal scroll caused by decorative overflow. */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink-900);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Skip link: off-screen until focused, then pinned top-left. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background-color: var(--color-ink-800);
+  color: var(--color-cream-50);
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-bottom-right-radius: 4px;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+/* Hidden but available to screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Visible, high-contrast focus ring on every interactive element.
+   WCAG 1.4.11 requires the focus indicator to clear 3:1 against the ADJACENT
+   colour. A single gold ring clears it on ink (8.25:1) but only reaches
+   2.2:1 against cream, so it effectively vanished on the header, every cream
+   section and every form field. The ring is therefore two-tone: a dark inner
+   ring against light surfaces and a gold outer halo that stays legible on both. */
+  :focus-visible {
+    outline: 3px solid var(--color-ink-800);
+    outline-offset: 2px;
+    border-radius: 2px;
+    box-shadow: 0 0 0 6px var(--color-gold-500);
+  }
+
+  /* On dark surfaces the inner ring needs to be light, not dark, or it
+     disappears against the plate it sits on. */
+  .bg-ink-900 :focus-visible,
+  .bg-ink-950 :focus-visible,
+  .bg-ink-800 :focus-visible,
+  .bg-navy-800 :focus-visible {
+    outline-color: var(--color-cream-50);
+  }
+
+  ::selection {
+    background-color: var(--color-gold-300);
+    color: var(--color-ink-950);
+  }
+
+  /* Respect the OS "reduce motion" setting across every animation. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Motion system
+
+   Every entrance, transition and ambient animation on the site is defined
+   here, not inline. Three consequences:
+
+   1. ONE PLACE to change timing. No component decides its own duration.
+   2. Reduced motion is a genuine absence, not a shortened version.
+   3. All movement is transform / opacity / clip-path. No layout-triggering
+      properties are animated anywhere, so nothing reflows during a scroll.
+   ========================================================================== */
+
+/* -- Scroll reveal --------------------------------------------------------
+   Gated behind `html[data-motion="on"]`, which MotionRoot sets only after the
+   observer layer has mounted. Without that attribute the rules do not match,
+   so the content renders plainly visible. If JavaScript fails, is blocked, or
+   is slow, the page is COMPLETE - never blank. */
+html[data-motion="on"] [data-reveal] {
+  opacity: 0;
+  transform: var(--reveal-from, none);
+  transition:
+    opacity var(--reveal-duration, var(--dur-base)) var(--ease-out-soft)
+      var(--reveal-delay, 0ms),
+    transform var(--reveal-duration, var(--dur-base)) var(--ease-out-soft)
+      var(--reveal-delay, 0ms);
+}
+
+html[data-motion="on"] [data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* -- Cinematic curtain reveal ---------------------------------------------
+   A second entrance SHAPE, added because the site already had exactly one:
+   translate-and-fade. When every section rises 18px the page reads as a
+   template regardless of how good the typography is. A curtain reveal - the
+   mask opens from one edge while the content itself scales very slightly from
+   a larger state - reads as editorial, and it is a fundamentally different
+   gesture, so alternating the two across sections creates rhythm.
+
+   WHY clip-path AND NOT overflow. `clip-path: inset()` clips without creating
+   a scroll container or a new formatting context, so it cannot affect layout
+   or trap a sticky descendant. An `overflow: hidden` wrapper would.
+
+   `inset(0 100% 0 0)` is "clipped to nothing from the right"; `inset(0)` is
+   "fully visible". Interpolating between them opens the curtain left to right.
+
+   The inner element is scaled from 1.08 to 1 while the curtain opens, which is
+   the depth cue: the content is revealed slightly larger and settles back. Only
+   transform and clip-path animate, both of which are compositor-only, so
+   nothing reflows. */
+html[data-motion="on"] [data-curtain] {
+  clip-path: inset(0 100% 0 0);
+}
+
+html[data-motion="on"] [data-curtain="shown"] {
+  clip-path: inset(0 0 0 0);
+}
+
+html[data-motion="on"] [data-curtain-inner] {
+  transform: scale(var(--curtain-scale, 1.08));
+  transition: transform var(--dur-cinematic) var(--ease-cinematic)
+    var(--curtain-delay, 0ms);
+}
+
+html[data-motion="on"] [data-curtain="shown"] [data-curtain-inner] {
+  transform: scale(1);
+}
+
+/* A vertical variant for panels that should open upward, e.g. a card that
+   resolves from its own baseline. */
+html[data-motion="on"] [data-curtain="up"][data-curtain] {
+  clip-path: inset(100% 0 0 0);
+}
+
+html[data-motion="on"] [data-curtain="up"][data-curtain="shown"] {
+  clip-path: inset(0 0 0 0);
+}
+
+/* -- Scroll-linked depth ---------------------------------------------------
+   The one genuinely scroll-LINKED system on the site: an element whose offset
+   is bound to its own progress through the viewport, rather than to a
+   one-shot intersection.
+
+   IMPLEMENTATION NOTE - this uses the native CSS Scroll-Driven Animations
+   spec (`animation-timeline`), not a JavaScript scroll listener. That is the
+   same strategy the Motion library prioritises, and for the same reasons: the
+   timeline lives on the compositor, so scrolling does not run per-frame
+   JavaScript and cannot cause jank on a long page. The project does not depend
+   on Motion, and this gets the performance characteristic without adding a
+   runtime dependency.
+
+   Fallback is the important part. `@supports (animation-timeline: view())`
+   gates the whole block, so a browser without scroll-driven animations simply
+   renders every layer at its resting position - correct, if less lively. The
+   content is never hidden by the absence of the effect.
+
+   RANGE: the movement happens while the element crosses the viewport, from
+   "top edge enters" to "bottom edge leaves", which is what `view()` gives by
+   default. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Restrained by design: 26px, not 120px. A parallax layer that travels far
+       enough to be obviously moving stops reading as depth and starts reading as
+       a bug. */
+    html[data-motion="on"] [data-parallax] {
+      animation: parallax-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+
+    html[data-motion="on"] [data-parallax="far"] {
+      --parallax-distance: 52px;
+    }
+
+    html[data-motion="on"] [data-parallax="mid"] {
+      --parallax-distance: 30px;
+    }
+
+    html[data-motion="on"] [data-parallax="near"] {
+      --parallax-distance: 16px;
+    }
+
+    @keyframes parallax-drift {
+      from {
+        transform: translate3d(0, var(--parallax-distance, 30px), 0);
+      }
+      to {
+        transform: translate3d(0, calc(var(--parallax-distance, 30px) * -1), 0);
+      }
+    }
+
+    /* Reading progress bar. Driven by the DOCUMENT scroll timeline, not by a
+       JavaScript scroll listener and not by React state — `scaleX` follows the
+       scroll position on the compositor, so there is no re-render on scroll and
+       no listener to leak. This is the same "prefer the native
+       ScrollTimeline" posture the Motion library takes for scroll-linked work. */
+    html[data-motion="on"] [data-scroll-progress] {
+      animation: scroll-progress-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+
+    @keyframes scroll-progress-grow {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+/* -- Magnetic CTA ---------------------------------------------------------
+   `data-magnetic` marks an element whose position the magnetic wrapper drives.
+   The wrapper writes `--mag-x`/`--mag-y`; the button consumes them.
+
+   Declared as a custom property rather than a direct transform so the button's
+   own hover transform (a small lift) can compose with the pull instead of
+   overwriting it. Composition, not competition, between the two effects. */
+html[data-motion="on"] [data-magnetic] {
+  transform: translate3d(var(--mag-x, 0px), var(--mag-y, 0px), 0);
+  transition: transform 500ms var(--ease-out-soft);
+}
+
+/* On release the button returns to rest on a slower curve, which reads as
+   weight settling rather than a snap. */
+html[data-motion="on"] [data-magnetic="released"] {
+  transition: transform 700ms var(--ease-out-soft);
+}
+
+/* -- Reading progress -----------------------------------------------------
+   A hairline at the top of the header showing how far through the document the
+   visitor is. `aria-hidden`, because progress through a page is a visual
+   affordance, not information a screen-reader user needs announced. */
+.scroll-progress-bar {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold-500),
+    var(--color-gold-300)
+  );
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* -- Masked word reveal ---------------------------------------------------
+   The outer span clips (the mask); the inner span travels out of it. */
+[data-word-mask] {
+  vertical-align: bottom;
+}
+
+html[data-motion="on"] [data-word] {
+  transform: translate3d(0, 105%, 0);
+  transition: transform var(--dur-cinematic) var(--ease-cinematic)
+    var(--word-delay, 0ms);
+}
+
+/* THE RESET. This rule is what makes the mask a reveal rather than a permanent
+   hide. It is the exact counterpart of `[data-reveal="shown"]` above, and it
+   was MISSING: `[data-word]` was translated 105% down inside its
+   overflow:hidden mask and nothing ever brought it back.
+
+   Measured on the homepage hero before the fix: the h1 was 92px tall, the
+   mask 99px, and each word sat at translateY(90.79px) — so roughly the top
+   10% of each line was inside the clip and the headline read as an empty
+   purple field. Every word-masked heading in the site was invisible.
+
+   `RevealWords` now sets `data-words-revealed` on the heading from the same
+   shared observer `Reveal` uses, so the words reveal on the same trigger and
+   with the same once-only semantics as every other entrance. */
+html[data-motion="on"] [data-words-revealed="shown"] [data-word] {
+  transform: none;
+}
+
+/* -- Ambient drift --------------------------------------------------------
+   Slow, continuous movement for decorative layers. 18-26s is deliberately
+   below the threshold where motion reads as "looping": the eye cannot
+   complete a cycle, so it reads as atmosphere. */
+/* The "Reopened" status dot breathes by SCALING IN PLACE. Tailwind's
+   `animate-ping` grew an expanding ring from the dot, which is a stock
+   loading affordance — it reads as a notification and, at 1s, was the fastest
+   and loudest loop on the page. This holds the dot's footprint fixed so nothing
+   around it shifts, and runs at 3.4s because the message it marks is a date,
+   not an alert. */
+@keyframes status-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.45);
+    opacity: 1;
+  }
+}
+
+@utility animate-status-breathe {
+  animation: status-breathe 3.4s var(--ease-out-soft) infinite;
+}
+
+@keyframes drift-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes drift-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(10px, -8px, 0) scale(1.03);
+  }
+  66% {
+    transform: translate3d(-8px, 6px, 0) scale(0.98);
+  }
+}
+
+/* A single slow rotation on brand arcs. 60s so it never reads as spinning. */
+@keyframes rotate-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-drift {
+  animation: drift-slow 18s var(--ease-in-out) infinite;
+}
+
+@utility animate-drift-slow {
+  animation: drift-drift 26s var(--ease-in-out) infinite;
+}
+
+@utility animate-rotate-slow {
+  animation: rotate-slow 60s linear infinite;
+  /* A rotating element repaints every frame. Isolating it keeps that repaint
+     off the rest of the layer. */
+  transform: translateZ(0);
+}
+
+/* -- Sticky storytelling ---------------------------------------------------
+   Shared shell for scroll-driven sequences. The outer track is tall; the inner
+   panel sticks while the track scrolls past. Sequencing is driven by scroll
+   position via a CSS custom property written by StickySequence.tsx. */
+
+@utility panel-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  /* svh, not vh: on mobile browsers a dynamic toolbar changes vh mid-scroll,
+     which makes a 100vh sticky panel jump. svh holds the small viewport. */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* -- Drawer ---------------------------------------------------------------
+   The panel slides in from the right; items fade and step in behind it. Both
+   are transform/opacity only. */
+@keyframes drawer-in {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes drawer-item-in {
+  from {
+    opacity: 0;
+    transform: translate3d(14px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Campus name cross-fade on tab switch. A short clip-path wipe rather than a
+   plain fade: it reads as one name being replaced by another rather than the
+   text simply blinking. */
+@keyframes campus-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transform: translate3d(-8px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* A short rise-and-fade, used where a keyed element must APPEAR on a state
+   change rather than on scroll (the uniform plate and its group marker). Kept
+   separate from the campus wipe on purpose: a wipe reads as one thing replacing
+   another, which is right for a tab switch and wrong for a plate that was never
+   on screen. Transform/opacity only. */
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* -- Interactive affordances ---------------------------------------------- */
+
+@utility line-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@utility line-link-underline {
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform-origin: left center;
+  transform: scaleX(0);
+  opacity: 0;
+  transition:
+    transform var(--dur-base) var(--ease-out-soft),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+
+@media (hover: hover) {
+  .line-link:hover .line-link-underline,
+  .line-link:focus-visible .line-link-underline {
+    transform: scaleX(1);
+    opacity: 0.55;
+  }
+}
+
+/* Chevron nudge inside a link, on hover only. 4px reads as directional
+   without turning the row into a carousel. */
+@utility arrow-nudge {
+  transition: transform var(--dur-base) var(--ease-out-soft);
+}
+
+@media (hover: hover) {
+  .group:hover .arrow-nudge {
+    transform: translateX(4px);
+  }
+  .group:focus-within .arrow-nudge {
+    transform: translateX(4px);
+  }
+}
+
+/* ==========================================================================
+   Reduced motion: absence, not speed.
+
+   This block does NOT set a fast duration. It removes the hidden states, so a
+   reduced-motion visitor receives the same DOM with nothing displaced. Any
+   component that moves content via JavaScript scroll logic checks the same
+   preference in JS (see lib/motion.ts).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Neutralise the scroll-reveal hidden state. */
+  html[data-motion="on"] [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Reveal words present rather than animate. Keyed on the same
+     `data-words-revealed` attribute the shown-state rule uses, so there is one
+     source of truth for "this heading has been revealed". */
+  html[data-motion="on"] [data-words-revealed] [data-word] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Ambient loops stop outright. */
+  .animate-drift,
+  .animate-drift-slow,
+  .animate-rotate-slow,
+  .animate-status-breathe {
+    animation: none !important;
+  }
+
+  /* Curtain reveals PRESENT rather than open. The clip-path must be released or
+     the content would be permanently masked away — the same failure mode the
+     word-reveal rule above had. Released outright rather than transitioned,
+     because a clip-path transition is still motion. */
+  html[data-motion="on"] [data-curtain] {
+    clip-path: none !important;
+    transition: none !important;
+  }
+
+  html[data-motion="on"] [data-curtain-inner] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Magnetic pull: the button sits exactly where it was authored. The
+     `--mag-*` custom properties are left at their 0px defaults and the
+     transform is dropped, so nothing can be left displaced by a pointer event
+     that fired before the preference changed. */
+  html[data-motion="on"] [data-magnetic] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* The reading-progress bar is hidden, not frozen at 0 or pinned at 100%. A
+     progress bar is a continuous-motion affordance by definition; there is no
+     static version of it that communicates anything, so it is removed. Its
+     information is not lost — it was decorative. */
+  .scroll-progress-bar {
+    display: none !important;
+  }
+
+  /* Belt-and-braces on the scroll-driven rules. They are already nested in
+     `prefers-reduced-motion: no-preference` above, so they cannot match here,
+     but an explicit reset means that if anyone later moves them out of that
+     guard they still degrade to a static layer instead of a moving one. */
+  html[data-motion="on"] [data-parallax] {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* The drawer must still APPEAR when opened — it cannot simply be left at its
+     `from` keyframe, or the menu would be permanently off-screen. It appears
+     instantly instead of sliding, and its items are not staggered. This is the
+     one place the drawer keyframes need explicit handling rather than blanket
+     removal. */
+  [style*="drawer-in"] {
+    animation: none !important;
+  }
+  [style*="drawer-item-in"] {
+    animation: none !important;
+  }
+
+  /* Campus tab cross-fade resolves instantly rather than wiping. */
+  [style*="campus-in"] {
+    animation: none !important;
+  }
+
+  /* The uniform plate and its group marker resolve instantly rather than
+     rising. Both are keyed on the active step, so leaving the animation running
+     would displace them on every step change. `animation: none` leaves the
+     element at its authored styles, which for both is fully visible — the same
+     release-not-hide rule the curtain block above follows. */
+  [style*="fade-rise"] {
+    animation: none !important;
+  }
+
+  /* The scroll-cue dot stops travelling. */
+  [style*="drift-slow"] {
+    animation: none !important;
+  }
+
+  /* Sticky storytelling panels unstick: a pinned full-height panel is exactly
+     the kind of thing reduced motion exists to avoid. */
+  .panel-sticky {
+    position: static !important;
+    height: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility container-page {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+@utility container-prose {
+  width: 100%;
+  max-width: var(--container-prose);
+  margin-inline: auto;
+}
+
+/* Hairline rule in gold, used to close editorial sections. */
+@utility rule-gold {
+  width: 4.5rem;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-gold-500),
+    color-mix(in oklab, var(--color-gold-500) 20%, transparent)
+  );
+  border-radius: 2px;
+}
+
+/* Underline treatment for in-content prose links. */
+@utility link-prose {
+  color: var(--color-ink-700);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, var(--color-gold-500) 65%, transparent);
+  transition: text-decoration-color 160ms var(--ease-out-soft);
+}
