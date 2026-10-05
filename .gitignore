@@ -66,3 +66,4 @@ Thumbs.db
 # Verification scratch: screenshots, sweep logs, ad-hoc test scripts.
 # Contains large PNG captures and is not part of the deliverable.
 .work/
+.vercel
