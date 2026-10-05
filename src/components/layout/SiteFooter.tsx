@@ -50,9 +50,15 @@ export function SiteFooter() {
                 style={{ aspectRatio: "1499 / 880" }}
               />
             </span>
+            {/* Both regions, not one. This line used to print only Khanpur / Haripur,
+                which made the footer — the one place every visitor is
+                guaranteed to read — assert a single-location school. It now
+                states the school's two regions and stops there: the full
+                address for each campus is one click away in the Campuses
+                column beside it, so repeating addresses here would be
+                duplication without adding information. */}
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream-300/75">
-              {school.location.area}, {school.location.region},{" "}
-              {school.location.country}.
+              Locations: {school.presence.list}.
             </p>
             {/* The founder, stated once and in one form. This footer used to
                 print "Founded by {name}, {qualification}" — the same sentence
@@ -216,8 +222,8 @@ export function SiteFooter() {
         <div className="mt-14 flex flex-col gap-4 border-t border-cream-100/12 pt-7 text-xs text-cream-300/70 sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} {school.name}. All rights reserved.</p>
           <p className="flex items-center gap-2">
-            <TrilliumPetal className="size-4 text-gold-500/60" />
-            {school.location.area}, {school.location.region}
+            <TrilliumPetal className="size-4 shrink-0 text-gold-500/60" />
+            {school.presence.list}
           </p>
         </div>
       </div>

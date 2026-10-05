@@ -90,8 +90,7 @@ export default function LeadershipPage() {
 
             <div className="mt-10 border-t border-cream-100/12 pt-7">
               <p className="text-sm text-cream-300/60">
-                {school.name} · {school.location.area},{" "}
-                {school.location.region}
+                {school.name} · {school.presence.list}
               </p>
             </div>
           </div>

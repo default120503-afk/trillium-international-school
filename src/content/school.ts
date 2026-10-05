@@ -25,10 +25,73 @@ export const school = {
   name: "Trillium International School System",
   /** Short form used where space is tight (nav, metadata). */
   shortName: "TISS",
+  /**
+   * THE FOUNDING LOCATION — NOT the school's full present-day footprint.
+   *
+   * This record names Khanpur / Haripur because that is where the school
+   * began and where the documented history comes from. It is the correct value
+   * for ORIGIN copy: the story page, the timeline, the founding narrative. It
+   * is the WRONG value for a general "where is the school" statement, because
+   * the school also operates in Rawalpindi — printing this alone made the
+   * whole site read as if Khanpur / Haripur were the only place it existed.
+   *
+   * For any statement about where the school is NOW, use `presence` below.
+   * Nothing about this record has changed; only its use has been narrowed.
+   */
   location: {
     area: "Khanpur / Haripur",
     region: "Khyber Pakhtunkhwa",
     country: "Pakistan",
+  },
+  /**
+   * THE SCHOOL'S PRESENT-DAY GEOGRAPHIC PRESENCE.
+   *
+   * Two locations. They are separate cities in separate provinces, roughly
+   * 150km apart — Rawalpindi is NOT a neighbourhood or an alternative spelling
+   * of Khanpur, and the site must never let a visitor infer that it is.
+   *
+   * This is deliberately a list of REGIONS rather than a list of addresses.
+   * Each campus's own address already flows from `campuses`, one source of
+   * truth per record; repeating full addresses in a general location line is
+   * what turns a school site into a directory listing. What belongs at this
+   * level is only "these are the places we are".
+   */
+  presence: {
+    /** Short region names, in the order they are shown to visitors. */
+    regions: [
+      { area: "Khanpur / Haripur", region: "Khyber Pakhtunkhwa" },
+      { area: "Rawalpindi", region: "Punjab" },
+    ],
+    /**
+     * Inline list for a running sentence or a compact line:
+     * "Khanpur / Haripur, Khyber Pakhtunkhwa • Rawalpindi, Punjab", where the
+     * space is a NO-BREAK space. Two measured defects forced this, both only
+     * visible at 360px:
+     *   1. With ordinary spaces the line broke "Khyber Pakhtunkhwa" as
+     *      "KHYBER | PAKHTUNKHWA" — a place name cut in half.
+     *   2. Fixing only the spaces after each comma moved the break onto the
+     *      ordinary space INSIDE "Khyber Pakhtunkhwa", which then broke again.
+     *   3. With each province joined but "Khanpur / Haripur" still spaced, the
+     *      line broke again after "KHANPUR /". That unit measures 260px in a
+     *      320px column, so it never needed to break at all.
+     * Every space within a place name is therefore non-breaking, the slash in
+     * "Khanpur / Haripur" is included, and the bullet is bound to the location
+     * that follows it.
+     *
+     * The result, verified: the ONLY remaining break opportunity is the single
+     * ordinary space before the bullet, because the measured natural width of
+     * the whole string is 514px inside a 320px column and so it must wrap
+     * somewhere. That one break point is the boundary between the two
+     * locations, which means the wrap states the two-location fact visually
+     * instead of damaging a place name.
+     */
+    list: "Khanpur / Haripur, Khyber Pakhtunkhwa • Rawalpindi, Punjab",
+    /**
+     * Sentence form for prose that needs a subject and a verb, so no call site
+     * has to hand-assemble one and get the preposition wrong:
+     * "a presence in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab"
+     */
+    prose: "a presence in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab",
   },
   /** The school reopened in October 2026 per the client. */
   status: {

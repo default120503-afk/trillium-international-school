@@ -19,7 +19,7 @@ import { buildMetadata } from "@/app/layout";
 export const metadata: Metadata = buildMetadata({
   title: "Where Curiosity Meets Character",
   description:
-    "Trillium International School System, Khanpur / Haripur, Khyber Pakhtunkhwa: a school founded on concept-based learning, character and access to quality education for rural communities.",
+    "Trillium International School System, with campuses in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab: a school founded on concept-based learning, character and access to quality education for rural communities.",
   path: "/",
 });
 
@@ -87,9 +87,9 @@ export default function HomePage() {
             <div className="max-w-2xl">
               <Reveal as="p" variant="soft" size="md">
                 <span className="text-lg leading-relaxed text-warm-700 sm:text-xl">
-                  {school.name} is a school system in {school.location.area},{" "}
-                  {school.location.region}. Its published profile describes
-                  teaching that is child-centred and concept-based: children are
+                  {school.name} is a school system with {school.presence.prose}. Its
+                  published profile describes teaching that is
+                  child-centred and concept-based: children are
                   asked to understand an idea, observe what happens, and think it
                   through — rather than simply memorise an answer.
                 </span>

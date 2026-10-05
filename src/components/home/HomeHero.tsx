@@ -106,9 +106,13 @@ export function Hero() {
                   Reopened {school.status.reopenedIn}
                 </span>
                 <span aria-hidden="true" className="hidden h-px w-6 bg-cream-100/25 sm:block" />
-                <span>
-                  {school.location.area}, {school.location.region}
-                </span>
+                {/* Both locations. The hero eyebrow is the first place a
+                    visitor reads "where", and it named one region — which,
+                    above a page about a school system, read as "this school is
+                    in one place". Region level, not address level: the hero's
+                    job is orientation, and the campuses section is the job
+                    of detail. */}
+                <span>{school.presence.list}</span>
               </p>
             </Reveal>
 

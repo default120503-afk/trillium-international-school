@@ -19,7 +19,7 @@ import { buildMetadata } from "@/app/layout";
 export const metadata: Metadata = buildMetadata({
   title: "Contact",
   description:
-    "How to reach Trillium International School System in Khanpur / Haripur, Khyber Pakhtunkhwa: call or message the school's published mobile number, or send an admissions inquiry.",
+    "How to reach Trillium International School System, with campuses in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab: call or message the school's published mobile number, or send an admissions inquiry.",
   path: "/contact",
 });
 
@@ -234,15 +234,14 @@ export default function ContactPage() {
             <div>
               <SectionHeading id="location-heading"
                 eyebrow="Where the school is"
-                title={`${school.location.area}, ${school.location.region}`}
+                title={school.presence.list}
                 tone="dark"
                 as="h2"
               />
               <div className="mt-8">
                 <Prose tone="dark">
                   <p>
-                    {school.name} operates in {school.location.area},{" "}
-                    {school.location.region}, {school.location.country}. Founded by{" "}
+                    {school.name} operates from {school.presence.list}. Founded by{" "}
                     {founder.name}, {founder.role}.
                   </p>
                   <p>

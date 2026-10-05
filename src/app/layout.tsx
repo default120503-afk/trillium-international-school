@@ -57,7 +57,20 @@ export function buildSchoolStructuredData() {
         }
       : {
           // No verified postal address: describe only what is actually known.
-          areaServed: `${school.location.area}, ${school.location.region}, ${school.location.country}`,
+          //
+          // WHY THIS IS A PLAIN LIST OF BOTH REGIONS.
+          // This used to be a single string naming Khanpur / Haripur only,
+          // which asserted to a search engine that the school served one area.
+          // Schema.org's `areaServed` accepts an `AdministrativeArea` or a
+          // `Text`; supplying an array of `AdministrativeArea` objects is the
+          // standards-appropriate way to say "more than one place" without
+          // inventing a single `PostalAddress` that would look like one
+          // head-office site. No coordinates, radii or postcodes are
+          // asserted, because none has been verified.
+          areaServed: school.presence.regions.map((r) => ({
+            "@type": "AdministrativeArea",
+            name: `${r.area}, ${r.region}`,
+          })),
         }),
     // Only genuine profile permalinks are valid identity URLs. A /share/
     // redirect is excluded so the structured data does not assert a page

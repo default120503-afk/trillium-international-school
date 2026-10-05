@@ -10,7 +10,7 @@ import { buildMetadata } from "@/app/layout";
 export const metadata: Metadata = buildMetadata({
   title: "About the School",
   description:
-    "Trillium International School System in Khanpur / Haripur, Khyber Pakhtunkhwa: its purpose, its educational philosophy, and the distinction between its aims and its confirmed programmes.",
+    "Trillium International School System, with campuses in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab: its purpose, its educational philosophy, and the distinction between its aims and its confirmed programmes.",
   path: "/about",
 });
 
@@ -34,8 +34,7 @@ export default function AboutPage() {
             />
             <Prose>
               <p className="text-lg leading-relaxed text-warm-700">
-                {school.name} is a school system in {school.location.area},{" "}
-                {school.location.region}, {school.location.country}. It was founded
+                {school.name} is a school system with {school.presence.prose}. It was founded
                 by {founder.name}, {founder.role} and {founder.descriptor}.
               </p>
               <p>

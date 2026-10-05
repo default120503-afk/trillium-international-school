@@ -69,7 +69,7 @@ export const campuses: Campus[] = [
     id: "rawalpindi",
     name: "Rawalpindi Campus",
     locationNote:
-      "Adayala Road, The Awami Shopping Center, Beside Snober City, Rawalpindi, Pakistan",
+      "Adayala Road, The Awami Shopping Center, Beside Snober City, Rawalpindi, Punjab, Pakistan",
     region: "Rawalpindi, Punjab, Pakistan",
     status: "operational",
     image: null,

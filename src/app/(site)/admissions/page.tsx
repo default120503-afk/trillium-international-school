@@ -10,7 +10,7 @@ import { buildMetadata } from "@/app/layout";
 export const metadata: Metadata = buildMetadata({
   title: "Admissions",
   description:
-    "Send an admissions inquiry to Trillium International School System, Khanpur / Haripur. Give your child's details and preferred campus.",
+    "Send an admissions inquiry to Trillium International School System, with campuses in Khanpur / Haripur, Khyber Pakhtunkhwa and Rawalpindi, Punjab. Give your child's details and preferred campus.",
   path: "/admissions",
 });
 
