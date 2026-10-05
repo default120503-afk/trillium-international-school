@@ -11,7 +11,7 @@ import { buildMetadata } from "@/app/layout";
 export const metadata: Metadata = buildMetadata({
   title: "Campuses",
   description:
-    "Campus locations of Trillium International School System: the operating Rawalpindi campus on Adayala Road, D Awami Shopping Center, beside Snober City, plus the Bhera and Khanpur locations recorded in the school's history.",
+    "Campus locations of Trillium International School System: the operating Rawalpindi campus on Adayala Road, The Awami Shopping Center, beside Snober City, plus the Bhera and Khanpur locations recorded in the school's history.",
   path: "/campuses",
 });
 
