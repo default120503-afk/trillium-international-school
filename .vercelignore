@@ -1,0 +1,48 @@
+# Vercel CLI upload exclusions.
+#
+# IMPORTANT — why this file exists and why it must mirror .gitignore.
+#
+# `vercel deploy` uploads files from the LOCAL WORKING DIRECTORY, not from the
+# Git repository. When this file is absent, the CLI falls back to including
+# everything it finds on disk apart from a small built-in default list, and it
+# does NOT consult .gitignore. That is how the deliberately removed founder
+# photograph (public/images/founder/farzana-tabussum.jpg) was published at a
+# guessable URL on the live site despite being correctly excluded from Git.
+#
+# When .vercelignore exists it is the ONLY ignore file the CLI honours, so every
+# exclusion that matters must be listed here as well as in .gitignore. Keeping
+# the two in step is a manual responsibility; .gitignore governs the repository
+# and this file governs what is uploaded to Vercel.
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Vercel's own local state
+.vercel/
+
+# Environment — never upload real values
+.env*
+!.env.example
+
+# The founder photograph, deliberately removed from the site. Nothing in src/
+# references it; excluding it here is what keeps it off the deployed host.
+public/images/founder/
+Farzana_Tabussum.jpeg
+
+# Verification scratch: screenshots, sweep logs, ad-hoc test scripts
+.work/
+
+# Build-irrelevant source material
+CamScanner *.pdf
+
+# Local machine artefacts
+*.tsbuildinfo
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
