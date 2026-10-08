@@ -11,7 +11,7 @@
  * `locationNote` is verbatim OWNER-SUPPLIED wording and nothing else. The two
  * Haripur campuses are locality references from school material, not complete
  * postal addresses. The Rawalpindi campus is a full owner-supplied landmark
- * description ("Beside Snober City", "The Awami Shopping Center") which is
+ * description ("Beside Snober City", "D Awami Shopping Center") which is
  * more
  * specific, and is recorded exactly as given.
  *
@@ -69,7 +69,7 @@ export const campuses: Campus[] = [
     id: "rawalpindi",
     name: "Rawalpindi Campus",
     locationNote:
-      "Adayala Road, The Awami Shopping Center, Beside Snober City, Rawalpindi, Punjab, Pakistan",
+      "Adayala Road, D Awami Shopping Center, Beside Snober City, Rawalpindi, Punjab, Pakistan",
     region: "Rawalpindi, Punjab, Pakistan",
     status: "operational",
     image: null,
